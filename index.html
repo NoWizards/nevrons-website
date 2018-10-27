@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NeVrons - Smart Machines</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .header{
+            position: fixed;
+            display: flex;
+            padding: 0.5rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+
+            top: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.65);
+            z-index: 10;
+
+        }
+        .header::after{
+            bottom: -5px;
+            box-shadow: inset 0px 4px 8px -3px rgba(17, 17, 17, .06);
+            content: "";
+            height: 5px;
+            left: 0px;
+            opacity: 1;
+            pointer-events: none;
+            position: absolute;
+            right: 0px;
+            width: 100%;
+            z-index: 2050;
+        }
+        nav{
+
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 1.5em;
+            line-height: 3rem;
+            padding-left: 1rem;
+        }
+        span.logo{
+            background-color: rgba(255,255,255,1);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            justify-content: center;
+            align-items: center;
+
+            display: flex;
+        }
+        .spacer{
+            flex-grow: 1;
+        }
+        .hamburger {
+            padding: 15px 15px;
+            display: inline-block;
+            cursor: pointer;
+            transition-property: opacity, filter;
+            transition-duration: 0.15s;
+            transition-timing-function: linear;
+            font: inherit;
+            color: inherit;
+            text-transform: none;
+            background-color: transparent;
+            border: 0;
+            margin: 0;
+            overflow: visible; }
+            .hamburger:hover {
+            opacity: 0.7; }
+            .hamburger.is-active:hover {
+            opacity: 0.7; }
+            .hamburger.is-active .hamburger-inner,
+            .hamburger.is-active .hamburger-inner::before,
+            .hamburger.is-active .hamburger-inner::after {
+            background-color: #000; }
+        
+        .hamburger-box {
+            width: 40px;
+            height: 24px;
+            display: inline-block;
+            position: relative; }
+        
+        .hamburger-inner {
+            display: block;
+            top: 50%;
+            margin-top: -2px; }
+            .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+            width: 40px;
+            height: 4px;
+            background-color: #000;
+            border-radius: 4px;
+            position: absolute;
+            transition-property: transform;
+            transition-duration: 0.15s;
+            transition-timing-function: ease; }
+            .hamburger-inner::before, .hamburger-inner::after {
+            content: "";
+            display: block; }
+            .hamburger-inner::before {
+            top: -10px; }
+            .hamburger-inner::after {
+            bottom: -10px; }
+        
+        .hamburger--slider .hamburger-inner {
+            top: 2px; }
+            .hamburger--slider .hamburger-inner::before {
+            top: 10px;
+            transition-property: transform, opacity;
+            transition-timing-function: ease;
+            transition-duration: 0.15s; }
+            .hamburger--slider .hamburger-inner::after {
+            top: 20px; }
+        
+        .hamburger--slider.is-active .hamburger-inner {
+            transform: translate3d(0, 10px, 0) rotate(45deg); }
+            .hamburger--slider.is-active .hamburger-inner::before {
+            transform: rotate(-45deg) translate3d(-5.71429px, -6px, 0);
+            opacity: 0; }
+            .hamburger--slider.is-active .hamburger-inner::after {
+            transform: translate3d(0, -20px, 0) rotate(-90deg); }
+        
+        
+        .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+
+            background-color: #fff;
+
+        }
+        .hamburger:hover {
+            opacity: 0.7; 
+        }
+        .hamburger.is-active:hover {
+            opacity: 0.7;
+        }
+        .hamburger.is-active .hamburger-inner,
+        .hamburger.is-active .hamburger-inner::before,
+        .hamburger.is-active .hamburger-inner::after {
+            background-color: #fff; 
+        }
+        .hero{
+            position: relative;
+            width: 100%;
+            /*max-width: 1200px;*/
+            height: 100vh;
+            background: black;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 10fr 1fr;
+        }
+        canvas{
+            display: block;
+            width:100%;
+            height: 100%;
+            background: #000;
+            position: absolute;
+            
+        }
+        .title{
+            background-color: rgba(38,38,40, .75);
+            min-width: 250px;
+            height: 300px;
+            padding: 1rem;
+            margin: auto;
+            grid-column: 2/3;
+            position: relative;
+            z-index: 10;
+            border-radius: 10px;
+        }
+        .title h1{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 16px;
+            font-family: "Roboto";
+            color: rgb(255, 255, 255);
+            line-height: 2.222;
+            text-align: center;
+            
+ 
+        }
+        .sections{
+            max-width: 1200px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 2em;
+            margin: 0 auto;
+            padding-left:2em;
+            padding-right: 2em;
+        }
+        .st0{opacity:0.5;fill:#191C36;}
+           .st1{fill:#0C0F21;fill-opacity:0.5;}
+           .st2{fill:url(#SVGID_1_);}
+           .st3{fill:url(#SVGID_2_);}
+           .st4{fill:url(#SVGID_3_);}
+           .st5{fill:url(#SVGID_4_);}
+           .st6{display:none;}
+           .st7{display:inline;fill:#FFFFFF;}
+           .st8{fill:#235FA8;}
+           .st9{fill:#1786C8;}
+           .st10{fill:#199AD6;}
+        @media(min-width: 768px){
+            .hero{
+                height: 450px;
+            }
+            
+            
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <span class="logo">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            viewBox="0 0 32 32" width="42" height="42" xml:space="preserve">
+       <g id="Layer_5">
+           <path class="st0" d="M22.2,27.7c0.1-0.3,0.4-0.5,0.6-0.7L9.6,3.5L3,14.6c0.5,0.3,0.8,0.8,0.8,1.4c0,0.4-0.1,0.7-0.3,0.9L22.2,27.7z
+               "/>
+           <path class="st1" d="M22.2,27.7c0.3-0.5,0.8-0.9,1.5-0.9c0.3,0,0.6,0.1,0.9,0.3l6.6-11L24.8,4.8c-0.3,0.2-0.6,0.4-1,0.4
+               c-0.6,0-1.1-0.3-1.4-0.7L3.6,15.3c0.1,0.2,0.2,0.5,0.2,0.7c0,0.4-0.1,0.7-0.3,0.9L22.2,27.7z"/>
+       </g>
+       <g id="Layer_2">
+           <g>
+               <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="6.1195" y1="-1.0986" x2="6.1195" y2="15.1246">
+                   <stop  offset="0.2364" style="stop-color:#235FA8"/>
+                   <stop  offset="0.3342" style="stop-color:#216BB1"/>
+                   <stop  offset="0.5913" style="stop-color:#1E85C6"/>
+                   <stop  offset="0.8213" style="stop-color:#1C95D3"/>
+                   <stop  offset="1" style="stop-color:#1B9BD7"/>
+               </linearGradient>
+               <path class="st2" d="M2.1,14.3c0.7,0,1.2,0.4,1.5,0.9L10.1,4c0.3-0.4,0.1-1-0.3-1.3C9.3,2.4,8.8,2.6,8.5,3L2,14.3
+                   C2,14.3,2.1,14.3,2.1,14.3z"/>
+               <linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="6.4805" y1="12.7058" x2="6.4805" y2="30.4342">
+                   <stop  offset="0.2364" style="stop-color:#235FA8"/>
+                   <stop  offset="0.3342" style="stop-color:#216BB1"/>
+                   <stop  offset="0.5913" style="stop-color:#1E85C6"/>
+                   <stop  offset="0.8213" style="stop-color:#1C95D3"/>
+                   <stop  offset="1" style="stop-color:#1B9BD7"/>
+               </linearGradient>
+               <path class="st3" d="M10.8,29.2L3.6,16.7c-0.3,0.6-0.8,1-1.5,1c0,0-0.1,0-0.1,0l7.2,12.4c0.2,0.3,0.5,0.5,0.8,0.5
+                   c0.2,0,0.3,0,0.5-0.1C10.9,30.2,11.1,29.6,10.8,29.2z"/>
+           </g>
+           <linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="22.7792" y1="29.328" x2="8.7168" y2="1.4961">
+               <stop  offset="0.1729" style="stop-color:#235FA8"/>
+               <stop  offset="0.839" style="stop-color:#1B9BD7"/>
+           </linearGradient>
+           <path class="st4" d="M23.7,26.8c0,0,0.1,0,0.1,0L10.1,3C9.9,2.6,9.3,2.5,8.8,2.7C8.5,2.9,8.2,3.5,8.2,3.5L7.8,4.3
+               c0.5-0.5,1.5,1.1,1.5,1.1c3,5.2,10.6,18.3,12.9,22.3C22.5,27.2,23.1,26.8,23.7,26.8z"/>
+           <linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="27.7944" y1="5.2627" x2="27.7944" y2="27.466">
+               <stop  offset="0.2364" style="stop-color:#235FA8"/>
+               <stop  offset="0.3921" style="stop-color:#2072B7"/>
+               <stop  offset="0.674" style="stop-color:#1C90CE"/>
+               <stop  offset="0.8341" style="stop-color:#1B9BD7"/>
+           </linearGradient>
+           <path class="st5" d="M23.6,26.8c0,0,0.1,0,0.1,0c0.7,0,1.2,0.4,1.5,0.9L32,16L25.2,4.3c-0.3,0.6-0.8,0.9-1.5,0.9c0,0-0.1,0-0.1,0
+               L29.8,16L23.6,26.8z"/>
+       </g>
+       <g id="Layer_3" class="st6">
+           <circle class="st7" cx="23.7" cy="3.5" r="1.7"/>
+           
+               <ellipse transform="matrix(1 -4.032901e-03 4.032901e-03 1 -6.449183e-02 8.619958e-03)" class="st7" cx="2.1" cy="16" rx="1.7" ry="1.7"/>
+           <circle class="st7" cx="23.7" cy="28.5" r="1.7"/>
+       </g>
+       <g id="Layer_4">
+           <g>
+               <path class="st8" d="M23.7,5.6c-1.2,0-2.1-0.9-2.1-2.1c0-1.2,0.9-2.1,2.1-2.1c1.2,0,2.1,0.9,2.1,2.1C25.8,4.7,24.9,5.6,23.7,5.6z
+                    M23.7,2.3c-0.7,0-1.3,0.6-1.3,1.3c0,0.7,0.6,1.3,1.3,1.3c0.7,0,1.3-0.6,1.3-1.3C25,2.8,24.4,2.3,23.7,2.3z"/>
+           </g>
+           <g>
+               <path class="st9" d="M2.1,18.1C0.9,18.1,0,17.2,0,16c0-1.2,0.9-2.1,2.1-2.1c1.2,0,2.1,0.9,2.1,2.1c0,0.6-0.2,1.1-0.6,1.5
+                   C3.2,17.9,2.7,18.1,2.1,18.1L2.1,18.1z M2.1,14.7c-0.7,0-1.3,0.6-1.3,1.3c0,0.7,0.6,1.3,1.3,1.3v0.4l0-0.4c0.3,0,0.7-0.1,0.9-0.4
+                   c0.2-0.2,0.4-0.6,0.4-0.9C3.4,15.3,2.8,14.7,2.1,14.7z"/>
+           </g>
+           <g>
+               <path class="st10" d="M23.7,30.6c-1.2,0-2.1-0.9-2.1-2.1c0-1.2,0.9-2.1,2.1-2.1c1.2,0,2.1,0.9,2.1,2.1
+                   C25.8,29.6,24.9,30.6,23.7,30.6z M23.7,27.2c-0.7,0-1.3,0.6-1.3,1.3c0,0.7,0.6,1.3,1.3,1.3c0.7,0,1.3-0.6,1.3-1.3
+                   C25,27.8,24.4,27.2,23.7,27.2z"/>
+           </g>
+       </g>
+       </svg>
+    </span>
+        <nav>NeVrons</nav>
+        <div class="spacer"></div>
+        <button class="hamburger hamburger--slider" type="button">
+                <span class="hamburger-box">
+                  <span class="hamburger-inner"></span>
+                </span>
+        </button>
+
+    </div>
+    <div class="hero">
+        <canvas id="c"></canvas>
+        <div class="title">
+            <h1>Consulta, evaluación y Desarrollo</h1>
+
+        </div>
+    </div>
+    <div class="sections">
+        <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi et nulla sed orci scelerisque euismod ac vel dui. Etiam lobortis sodales neque ac laoreet. Donec a quam non est gravida iaculis eget in dolor. Maecenas sit amet eros volutpat, pulvinar felis ac, auctor elit. Vivamus volutpat purus et nibh tempor ultricies. Praesent vel enim sit amet ipsum iaculis luctus. Aliquam laoreet felis ante, id lobortis neque convallis et.
+
+                Curabitur commodo blandit velit. Sed ullamcorper auctor enim in ullamcorper. 
+                <br>
+                  In hac habitasse platea dictumst. Quisque consequat molestie libero, tristique mollis quam tempus sit amet. Curabitur ultricies ornare eleifend. Morbi scelerisque, libero ut vehicula scelerisque, arcu mauris laoreet nisi, auctor molestie erat neque vel tellus. Aliquam vitae nunc et libero pulvinar scelerisque. Mauris sodales blandit dolor in vulputate. Fusce dictum, velit in tincidunt mollis, lorem neque aliquet massa, non accumsan libero tellus nec augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse mauris odio, faucibus sed tellus in, venenatis blandit elit. Maecenas lacinia mauris et quam dignissim, quis venenatis dolor ultrices. In faucibus augue metus, et pharetra lectus tempus eget. Suspendisse potenti.
+                
+                Sed eu sodales lectus, vitae porta mauris.
+                <br>
+                <br>
+                 Aliquam nec ante volutpat, scelerisque magna porta, sodales mauris. Ut urna metus, ornare vitae ultricies eget, facilisis vitae risus. Integer pretium tempor nulla, at tempor ex pulvinar non. Phasellus tincidunt leo eget lacus pulvinar, et convallis urna sollicitudin. Morbi nec dolor felis. Vivamus nec nisl enim. Aliquam varius fringilla urna ac dictum. Fusce pretium leo sed lacinia varius. Morbi id maximus nunc. Vivamus sagittis eleifend pellentesque. Aliquam ultricies lacus a erat egestas pulvinar. Nulla lacinia elit justo, quis tincidunt tellus dictum at. Ut ut metus malesuada lacus ultricies consectetur.
+                
+                Aenean eu tellus accumsan, porta urna quis, auctor est. 
+                <br>
+                <br>
+
+                Nulla justo ipsum, commodo quis mauris sit amet, fermentum sodales enim. Curabitur imperdiet purus luctus tellus tristique pellentesque. In hac habitasse platea dictumst. Sed vitae viverra lorem. Quisque venenatis consectetur turpis. Donec vel finibus nunc, sit amet pulvinar libero. Nulla vitae lacus ligula.
+                
+                Donec placerat pulvinar odio, vel feugiat libero commodo at. Pellentesque finibus, turpis eu accumsan dictum, leo erat egestas orci, at blandit mi nunc et urna. Quisque quis ante pretium lorem varius lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin at suscipit velit, quis blandit massa. Fusce in tincidunt lectus. Phasellus quis nibh nec augue interdum sagittis. Cras lacinia semper congue. Nam sed varius nisl. Donec viverra mauris vel neque porttitor, ut eleifend dolor scelerisque. Proin tincidunt, lorem luctus pharetra elementum, nibh velit rutrum libero, et malesuada nibh sapien blandit eros.
+        </p>
+    </div>
+    <script id="vs" type="notjs">
+        attribute vec4 position;
+        
+        void main() {
+            gl_Position = position;
+        }
+    </script>
+    <script id="fs" type="notjs">
+            #define S(a,b,t) smoothstep(a,b,t)
+            precision lowp float;
+            uniform vec2 resolution;
+            uniform float time;
+            uniform float til_x;
+            uniform float til_y;
+
+            float DistLine(vec2 p, vec2 a, vec2 b){
+                vec2 pa = p - a;
+                vec2 ba = b - a;
+                float t = clamp(dot(pa, ba)/dot(ba,ba), 0., 1.);
+                return length(pa - ba*t);
+            }
+
+            float rand(vec2 co){
+                return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+            }
+            vec2 rand2(vec2 co){
+                float n = rand(co);
+                return vec2(n , rand(co+n));
+            }
+            vec2 getPos(vec2 id, vec2 offset){
+                vec2 n = rand2(id + vec2(1) +offset)*time;
+                return offset - sin(n)*0.4;
+            }
+
+            float Line(vec2 p, vec2 a, vec2 b){
+                float d = DistLine(p, a, b);
+                //line weight
+                float m = S(.009, .003, d);
+                float d2 = length(a-b);
+                //line transparency
+                m *= S(1.2, 0.5, d2) ;
+                return m;
+            }
+
+            float Layer(vec2 uv){
+                float m = 0.;
+                vec2 gv = fract(uv) -0.5;         
+                //create id for each element in grid
+                vec2 id = floor(uv)-5.;
+
+                vec2 p[9];
+                for(float y = -1.; y<=1.; y++){
+                    for(float x =-1.; x<=1.; x++){
+                        if(x==-1. && y==-1.) p[0] = getPos(id, vec2(x,y));
+                        if(x==0. && y==-1.)  p[1] = getPos(id, vec2(x,y));
+                        if(x==1. && y==-1.)  p[2] = getPos(id, vec2(x,y));
+                        if(x==-1. && y==0.)  p[3] = getPos(id, vec2(x,y));
+                        if(x==0. && y==0.)   p[4] = getPos(id, vec2(x,y));
+                        if(x==1. && y==0.)   p[5] = getPos(id, vec2(x,y));
+                        if(x==-1. && y==1.)  p[6] = getPos(id, vec2(x,y));
+                        if(x== 0. && y==1.)  p[7] = getPos(id, vec2(x,y));
+                        if(x== 1. && y==1.)  p[8] = getPos(id, vec2(x,y));
+
+                        
+
+                    }
+                }
+
+                for(int i=0; i<9; i++){
+                    m += Line(gv, p[4], p[i]);
+                    //light sparkle
+                    vec2 j = (p[i]-gv)*40.;
+                    float sparkle = 1./dot(j,j);
+                    //final sparkle but to remove some artiffacts, just will use fract() 
+                    m+=sparkle*(sin(time + fract(p[i].x)*30.)*0.5 + .5);
+                }
+                m += Line(gv, p[1], p[3]);
+                m += Line(gv, p[1], p[5]);
+                m += Line(gv, p[3], p[7]);
+                m += Line(gv, p[5], p[7]);
+
+                return m;
+
+            }
+
+            void main() {
+
+                vec2 uv = gl_FragCoord.xy / resolution;
+                uv = vec2(uv.x*til_x, uv.y*til_y);
+                float gradient = uv.y;
+
+                float m = 0.;
+                float t = time*0.1;
+
+                float s = sin(t);
+                float c = cos(t);
+                mat2 rot = mat2(c, -s, s, c);
+                uv *=rot;
+
+
+                for(float k=0.; k<=1.; k+=1./3.){
+               
+                    float size = fract(t + k);
+                    float fade = S(0., 0.5, size) - S(0.5,0.8, size);
+                    float multi = S(1., 0.25, size)*1.5;
+                    m += Layer(uv*multi + k*20.)*fade;
+
+                }
+
+                vec3 base = sin((10.15+t*3.5)*vec3(0.345, 0.456, 0.657))*0.4 +0.6;
+                vec3 col = m*base;
+                col += (0.3-gradient*0.3)*base;
+                
+
+                
+
+                gl_FragColor = vec4(col, 1.0);
+            }
+        </script>
+    <script src="./src/twgl.min.js"></script>
+    <script>
+
+        "use strict";
+        const gl = document.querySelector("#c").getContext("webgl");
+        const programInfo = twgl.createProgramInfo(gl, ["vs", "fs"]);
+
+        const arrays = {
+            position: [-1, -1, 0, 1, -1, 0, -1, 1, 0, -1, 1, 0, 1, -1, 0, 1, 1, 0],
+        };
+        const bufferInfo = twgl.createBufferInfoFromArrays(gl, arrays);
+        const tile_w = 300;
+        const tile_h = 300;
+
+        function render(time) {
+            twgl.resizeCanvasToDisplaySize(gl.canvas);
+            gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+
+            
+
+            const uniforms = {
+                time: time * 0.001,
+                resolution: [gl.canvas.width, gl.canvas.height],
+                til_x: gl.canvas.width/tile_w,
+                til_y: gl.canvas.height/tile_h,
+
+            };
+
+            gl.useProgram(programInfo.program);
+            twgl.setBuffersAndAttributes(gl, programInfo, bufferInfo);
+            twgl.setUniforms(programInfo, uniforms);
+            twgl.drawBufferInfo(gl, bufferInfo);
+
+            requestAnimationFrame(render);
+        }
+        requestAnimationFrame(render);
+    </script>
+
+</body>
+
+</html>
